@@ -1,6 +1,15 @@
 {
   "version": 2,
-  "buildCommand": "flutter build web",
-  "outputDirectory": "build/web"
+  "builds": [
+    {
+      "src": "build/web/index.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/:a*",
+      "destination": "/index.html"
+    }
+  ]
 }
-
