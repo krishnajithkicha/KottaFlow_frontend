@@ -6,10 +6,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
-  runApp(const MaterialApp(
-    home: TrafficHomePage(),
-    debugShowCheckedModeBanner: false,
-  ));
+  runApp(
+    const MaterialApp(
+      home: TrafficHomePage(),
+      debugShowCheckedModeBanner: false,
+    ),
+  );
 }
 
 class TrafficHomePage extends StatefulWidget {
@@ -38,7 +40,7 @@ class _TrafficHomePageState extends State<TrafficHomePage> {
     {"name": "Parappanangadi", "lat": 11.0485, "lng": 75.9276},
     {"name": "Tirur", "lat": 10.9134, "lng": 75.9254},
     {"name": "Ponnani", "lat": 10.7678, "lng": 75.9256},
-    {"name": "Areacode", "lat": 11.1874, "lng": 76.0594}
+    {"name": "Areacode", "lat": 11.1874, "lng": 76.0594},
   ];
 
   @override
@@ -53,11 +55,13 @@ class _TrafficHomePageState extends State<TrafficHomePage> {
   void _loadMarkers() {
     Set<Marker> markers = {};
     for (var loc in locations) {
-      markers.add(Marker(
-        markerId: MarkerId(loc["name"]),
-        position: LatLng(loc["lat"], loc["lng"]),
-        infoWindow: InfoWindow(title: loc["name"]),
-      ));
+      markers.add(
+        Marker(
+          markerId: MarkerId(loc["name"]),
+          position: LatLng(loc["lat"], loc["lng"]),
+          infoWindow: InfoWindow(title: loc["name"]),
+        ),
+      );
     }
     setState(() {
       _markers = markers;
@@ -65,12 +69,14 @@ class _TrafficHomePageState extends State<TrafficHomePage> {
   }
 
   Future<void> drawRoute() async {
-    final startLoc = locations.firstWhere((loc) => loc["name"] == selectedStart);
+    final startLoc = locations.firstWhere(
+      (loc) => loc["name"] == selectedStart,
+    );
     final endLoc = locations.firstWhere((loc) => loc["name"] == selectedEnd);
 
     _routePoints = [
       LatLng(startLoc["lat"], startLoc["lng"]),
-      LatLng(endLoc["lat"], endLoc["lng"])
+      LatLng(endLoc["lat"], endLoc["lng"]),
     ];
 
     setState(() {
@@ -119,7 +125,9 @@ class _TrafficHomePageState extends State<TrafficHomePage> {
   }
 
   Future<void> fetchStatus() async {
-    final response = await http.get(Uri.parse('http://127.0.0.1:8000/api/status/'));
+    final response = await http.get(
+      Uri.parse('http://127.0.0.1:8000/api/status/'),
+    );
 
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
@@ -127,9 +135,9 @@ class _TrafficHomePageState extends State<TrafficHomePage> {
         _statusData = jsonData['junctions'];
       });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Failed to fetch status")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Failed to fetch status")));
     }
   }
 
@@ -215,7 +223,10 @@ class _TrafficHomePageState extends State<TrafficHomePage> {
           ),
           const Padding(
             padding: EdgeInsets.all(8.0),
-            child: Text("Traffic Status:", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            child: Text(
+              "Traffic Status:",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
           ),
           Expanded(
             child: ListView.builder(
